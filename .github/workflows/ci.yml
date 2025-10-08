@@ -39,6 +39,7 @@ jobs:
         run: npm test --silent
 
   lint:
+    runs-on: ubuntu-latest
     steps:
       - name: Code auschecken
         uses: actions/checkout@v4

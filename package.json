@@ -1,0 +1,27 @@
+{
+  "name": "gha-viz",
+  "version": "1.0.0",
+  "description": "Visualisierung von GitHub Actions Workflows",
+  "main": "index.js",
+  "scripts": {
+    "diagram": "node index.js diagram samples/ci.yml",
+    "text": "node index.js text samples/ci.yml",
+    "build": "npm run diagram",
+    "deploy": "mkdir -p deploy && cp output/diagram.html deploy/diagram.html",
+    "test": "jest --coverage --silent"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageReporters": ["text", "lcov"],
+    "coverageThreshold": {
+      "global": { "branches": 80, "functions": 80, "lines": 80, "statements": 80 }
+    }
+  }
+}

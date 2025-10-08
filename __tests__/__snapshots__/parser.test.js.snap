@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot der Textausgabe 1`] = `
+"== Triggers ==
+- push
+- pull_request
+
+== Jobs ==
+* build
+  needs: (none)
+  steps:
+    - #1 uses actions/checkout@v4
+    - #2 run  npm ci
+* test
+  needs: build
+  steps:
+    - #1 run  npm test
+* lint
+  needs: build
+  steps:
+    - #1 run  npm run lint
+
+== Dependencies (ASCII) ==
+- build -> test
+- build -> lint"
+`;

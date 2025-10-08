@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  gha-viz:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci
+
+      - name: Tests + Coverage
+        run: npm test --silent
+
+      - name: Build diagram
+        run: npm run build
+
+      - name: Deploy (copy)
+        run: npm run deploy
+
+      - name: Upload artifact (diagram)
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagram
+          path: |
+            output/diagram.html
+            deploy/diagram.html

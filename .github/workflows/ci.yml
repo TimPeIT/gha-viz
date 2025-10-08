@@ -5,24 +5,72 @@ on:
   pull_request:
 
 jobs:
-  gha-viz:
+  build:
     runs-on: ubuntu-latest
     steps:
+      - name: Code auschecken
       - uses: actions/checkout@v4
 
-      - name: Use Node
+      - name: Node.js installieren
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
-      - name: Install
+      - name: Saubere installation der Pakete
+        run: npm ci
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code auschecken
+      - uses: actions/checkout@v4
+
+      - name: Node.js installieren
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Saubere installation der Pakete
         run: npm ci
 
       - name: Tests + Coverage
         run: npm test --silent
 
-      - name: Build diagram
+  lint:
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      - name: Node.js installieren
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Pakete installieren
+        run: npm ci
+
+      - name: Lint ausführen
+        run: npm run lint
+  diagram:
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code auschecken
+      - uses: actions/checkout@v4
+
+      - name: Node.js installieren
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Saubere installation der Pakete
+        run: npm ci
+
+      - name: Baue Diagramm
         run: npm run build
 
       - name: Deploy (copy)
@@ -35,3 +83,10 @@ jobs:
           path: |
             output/diagram.html
             deploy/diagram.html
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Code auschecken
+  #     - uses: actions/checkout@v4
+
+  #     - name: 

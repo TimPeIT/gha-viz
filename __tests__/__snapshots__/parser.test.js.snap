@@ -2,25 +2,44 @@
 
 exports[`Snapshot der Textausgabe 1`] = `
 "== Triggers ==
-- push
-- pull_request
+- complex trigger (push/pull_request etc.)
 
 == Jobs ==
 * build
   needs: (none)
   steps:
-    - #1 uses actions/checkout@v4
-    - #2 run  npm ci
+    - #1 (unknown step)
+    - #2 uses actions/checkout@v4
+    - #3 uses actions/setup-node@v4
+    - #4 run  npm ci
 * test
   needs: build
   steps:
-    - #1 run  npm test
+    - #1 (unknown step)
+    - #2 uses actions/checkout@v4
+    - #3 uses actions/setup-node@v4
+    - #4 run  npm ci
+    - #5 run  npm test --silent
 * lint
-  needs: build
+  needs: (none)
   steps:
-    - #1 run  npm run lint
+    - #1 uses actions/checkout@v4
+    - #2 uses actions/setup-node@v4
+    - #3 run  npm ci
+    - #4 run  npm run lint
+* diagram
+  needs: build, test
+  steps:
+    - #1 (unknown step)
+    - #2 uses actions/checkout@v4
+    - #3 uses actions/setup-node@v4
+    - #4 run  npm ci
+    - #5 run  npm run build
+    - #6 run  npm run deploy
+    - #7 uses actions/upload-artifact@v4
 
 == Dependencies (ASCII) ==
 - build -> test
-- build -> lint"
+- build -> diagram
+- test -> diagram"
 `;

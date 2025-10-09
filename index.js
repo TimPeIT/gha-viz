@@ -161,9 +161,13 @@ function main() {
   }
 }
 
-const isMain = import.meta.url === new URL(process.argv[1], `file://${process.cwd()}/`).href;
-if (isMain) main();
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+if (process.argv[1] === __filename) {
+  main();
+}
 
 // Für Tests exportieren:
-export { loadYaml, parseWorkflow, renderText, renderMermaid, main };
+export { loadYaml, parseWorkflow, renderText, renderMermaid, renderHTML, main };
 

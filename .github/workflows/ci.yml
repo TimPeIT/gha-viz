@@ -1,93 +1,86 @@
 name: CI
 
-on:
-  push:
-  pull_request:
+on: [ push, pull_request ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Code auschecken
-      - uses: actions/checkout@v4
-
-      - name: Node.js installieren
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Saubere installation der Pakete
-        run: npm ci
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Code auschecken
-      - uses: actions/checkout@v4
-
-      - name: Node.js installieren
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Saubere installation der Pakete
-        run: npm ci
-
-      - name: Tests + Coverage
-        run: npm test --silent
-
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Code auschecken
-        uses: actions/checkout@v4
+    - name: Code auschecken
+      uses: actions/checkout@v5
 
-      - name: Node.js installieren
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
+    - name: Node.js installieren
+      uses: actions/setup-node@v5
+      with:
+        node-version: '22'
+        cache: 'npm'
 
-      - name: Pakete installieren
-        run: npm ci
+    - name: Pakete installieren
+      run: npm ci
 
-      - name: Lint ausführen
-        run: npm run lint
-  diagram:
-    needs: [build, test]
+    - name: Lint ausführen
+      run: npm run lint
+  test:
+    needs: lint
     runs-on: ubuntu-latest
     steps:
-      - name: Code auschecken
-      - uses: actions/checkout@v4
+    - name: Code auschecken
+    - uses: actions/checkout@v5
 
-      - name: Node.js installieren
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
+    - name: Node.js installieren
+      uses: actions/setup-node@v5
+      with:
+        node-version: '22'
+        cache: 'npm'
 
-      - name: Saubere installation der Pakete
-        run: npm ci
+    - name: Saubere installation der Pakete
+      run: npm ci
 
-      - name: Baue Diagramm
-        run: npm run build
+    - name: Tests + Coverage
+      run: npm test --silent
 
-      - name: Deploy (copy)
-        run: npm run deploy
+  build:
+    runs-on: ubuntu-latest
+    needs: [ test, lint ]
+    steps:
+    - name: Code auschecken
+    - uses: actions/checkout@v5
 
-      - name: Upload artifact (diagram)
-        uses: actions/upload-artifact@v4
-        with:
-          name: diagram
-          path: |
-            output/diagram.html
-            deploy/diagram.html
-  # lint:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Code auschecken
-  #     - uses: actions/checkout@v4
+    - name: Node.js installieren
+      uses: actions/setup-node@v5
+      with:
+        node-version: '22'
+        cache: 'npm'
 
-  #     - name: 
+    - name: Saubere installation der Pakete
+      run: npm ci
+
+  diagram:
+    needs: [ lint, test, build ]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Code auschecken
+    - uses: actions/checkout@v5
+
+    - name: Node.js installieren
+      uses: actions/setup-node@v5
+      with:
+        node-version: '22'
+        cache: 'npm'
+
+    - name: Saubere installation der Pakete
+      run: npm ci
+
+    - name: Baue Diagramm
+      run: npm run build
+
+    - name: Deploy (copy)
+      run: npm run deploy
+
+    - name: Upload artifact (diagram)
+      uses: actions/upload-artifact@v4
+      with:
+        name: diagram
+        path: |
+          output/diagram.html
+          deploy/diagram.html

@@ -1,45 +1,26 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Snapshot der Textausgabe 1`] = `
+exports[`Snapshot der Textausgabe > erstellt Snapshot 1`] = `
 "== Triggers ==
-- complex trigger (push/pull_request etc.)
+- push
+- pull_request
 
 == Jobs ==
 * build
   needs: (none)
   steps:
-    - #1 (unknown step)
-    - #2 uses actions/checkout@v4
-    - #3 uses actions/setup-node@v4
-    - #4 run  npm ci
+    - #1 uses actions/checkout@v4
+    - #2 run  npm ci
 * test
   needs: build
   steps:
-    - #1 (unknown step)
-    - #2 uses actions/checkout@v4
-    - #3 uses actions/setup-node@v4
-    - #4 run  npm ci
-    - #5 run  npm test --silent
+    - #1 run  npm test
 * lint
-  needs: (none)
+  needs: build
   steps:
-    - #1 uses actions/checkout@v4
-    - #2 uses actions/setup-node@v4
-    - #3 run  npm ci
-    - #4 run  npm run lint
-* diagram
-  needs: build, test
-  steps:
-    - #1 (unknown step)
-    - #2 uses actions/checkout@v4
-    - #3 uses actions/setup-node@v4
-    - #4 run  npm ci
-    - #5 run  npm run build
-    - #6 run  npm run deploy
-    - #7 uses actions/upload-artifact@v4
+    - #1 run  npm run lint
 
 == Dependencies (ASCII) ==
 - build -> test
-- build -> diagram
-- test -> diagram"
+- build -> lint"
 `;

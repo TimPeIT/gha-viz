@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+// #!/usr/bin/env node
 // GHA-Viz: Liest eine GitHub-Actions-YAML und zeigt Jobs/Steps/Abhängigkeiten.
 // Befehle:
 //   node index.js text   <pfad-zur-yaml>
@@ -161,8 +161,9 @@ function main() {
   }
 }
 
-if (require.main === module) main();
+const isMain = import.meta.url === new URL(process.argv[1], `file://${process.cwd()}/`).href;
+if (isMain) main();
 
 // Für Tests exportieren:
-export { loadYaml, parseWorkflow, renderText, renderMermaid };
+export { loadYaml, parseWorkflow, renderText, renderMermaid, main };
 

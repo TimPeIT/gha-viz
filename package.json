@@ -3,24 +3,27 @@
   "version": "1.0.0",
   "description": "Visualisierung von GitHub Actions Workflows",
   "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
   "scripts": {
     "build": "node index.js diagram .github/workflows/ci.yml",
     "diagram": "node index.js diagram .github/workflows/ci.yml",
     "text": "node index.js text .github/workflows/ci.yml",
     "deploy": "mkdir -p deploy && cp output/diagram.html deploy/diagram.html",
     "test": "vitest --coverage --silent",
+    "test:update": "vitest --update",
     "lint": "eslint ."
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
   "devDependencies": {
     "@vitest/coverage-v8": "^3.2.4",
     "eslint": "^9.37.0",
+    "globals": "^16.4.0",
     "vitest": "^3.2.4"
   },
   "dependencies": {
+    "express": "^5.1.0",
     "js-yaml": "^4.1.0"
   }
 }

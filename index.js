@@ -4,9 +4,9 @@
 //   node index.js text   <pfad-zur-yaml>
 //   node index.js diagram <pfad-zur-yaml>   # schreibt output/diagram.html
 
-const fs = require("fs");
-const path = require("path");
-const yaml = require("js-yaml");
+import fs from 'fs';
+import path from 'path';
+import yaml from 'js-yaml';
 
 // ---------- Einfache Parser-Funktionen ----------
 function loadYaml(filePath) {
@@ -164,5 +164,5 @@ function main() {
 if (require.main === module) main();
 
 // Für Tests exportieren:
-module.exports = { loadYaml, parseWorkflow, renderText, renderMermaid };
+export { loadYaml, parseWorkflow, renderText, renderMermaid };
 
